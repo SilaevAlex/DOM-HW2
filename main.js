@@ -1,4 +1,3 @@
-"use strict"
 
 const users = [{
 
@@ -103,31 +102,63 @@ const users = [{
 }]
 
 
+const tableMain = document.querySelector('.table')
 
 
-let userTable = function (users) {
-
-    let table = document.querySelector("#tableMain");
-
-    for (let user of users) {
-
-        let tableString = document.createElement("tr")
-
-        for (let data in user) {
-
-            if (data == "id" || data == "first_name" || data == "last_name" || data == "email") {
-
-                let tableTd = document.createElement("td")
-
-                tableTd.innerHTML = user[data]
+const createTable = ({id, first_name, last_name, email}) => `
+        <tr>
+            <th class="table_id"> ID: ${id}</th>
+            <th class="table_name"> First Name: ${first_name}</th>
+            <th class="table_last_name"> Last Name: ${last_name}</th>
+            <th class="table_email"> Email: ${email}</th>
+        </tr>
+`;
 
 
+
+const tableRender = () => {
+    
+
+
+    const rows = users.map((user) => {
+        const row = document.createElement('tr')
+        row.className = 'table'
+
+        row.innerHTML = createTable(user);
+
+        row.onclick = function(){
+            if(this.className != "active"){
+                this.className = "active";
+            }else{
+                this.className = "";
             }
+        } 
+
+
+        row.ondblclick = function(){
+            alert(`Выбран: ${this.children[1].textContent}`)
         }
 
-    }
-}
+        return row;
 
-userTable(users)
+        
+    });
+
+    tableMain.append(...rows)
+
+    
+
+    console.log(rows)
+};
+
+
+
+tableRender()
+
+
+
+
+
+
 
 
